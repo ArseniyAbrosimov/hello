@@ -2,32 +2,94 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import altair as alt
-data = pd.DataFrame([[1,3.5,5.3],[2,3.6,4.7],[3,4.6,5.8]], columns = ['time', 'ID1', 'ID2'])
+data = pd.DataFrame([[1,3.5,5.3],[2,3.6,4.7],[3,4.6,5.8]], columns = ['Время, с', '1', '2'])
 
 #заставка
-st.set_page_config(page_title='Interactive Data Explorer', page_icon= '📊')
-st.title('📊 HTO ЦАП') 
+st.set_page_config(layout='wide', initial_sidebar_state='expanded')
 
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    
+st.title('📊 HTO ЦСС') 
 #понелька
 st.sidebar.header('Настройки')
-grS = st.sidebar.checkbox('График для сенсоров')
-grO = st.sidebar.checkbox('График для операторов')
+ms  = st.sidebar.multiselect('Выберите ID', ['72:28:23:45:32','22:22:43:45:56'])
+rec = st.sidebar.button('получить данные')
+
 
 
 #выборы понельки
-if grS == True:
-  v1 = st.multiselect('выберете ID сенсоров', ['ID1','ID2'])
-  if v1:
-    st.line_chart(data, x='time', y = v1)
-if grO == True:
-  v2 = st.multiselect('выберете ID операторов', ['ID1','ID2'])
-  if v2:
-    st.line_chart(data, x='time', y = v2)
+
+  #график амплитудного спектра
+
+for id in ms:
+  st.markdown(f'### MAC-адрес {id}')
+  c1, c2, c3, c4, c5 = st.columns(5)
+  c1.metric('Ср. арифм.', '10', '1.2 F')
+  c2.metric('Медиан. знач.', '10')
+  c3.metric('Мин. знач.', '10')
+  c4.metric('Макс. знач.', '10')
+  c5.metric('Ср. квадр. откл.', '10')
+
+  st.line_chart(data, x='Время, с', y = '1')
+
+
+
+
+#selectbox
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+#st.markdown('_среднее арифметическое значение сигнала_') 
+#st.markdown('_медианное значение сигнала_')
+#st.markdown('_минимальное значение сигнала_')
+#st.markdown('_максимальное значение сигнала_')
+
+#grS = st.sidebar.checkbox('График для сенсоров')
+#grO = st.sidebar.checkbox('График для операторов')
+
+#st.selectbox('Значение сигнала', ['среднее арифметическое', 'медианное', 'минимальное и макисмальное'])
+#st.subheader('My sub')
+
+#st.button('график ')
+#st.checkbox('Check me out')
+#st.radio('Pick one:', ['nose','ear'])
+#st.selectbox('Select', [1,2,3])
+#st.multiselect('Multiselect', [1,2,3])
+
+
+
+
+#st.subheader('My sub')
+
+#st.button('график ')
+#st.checkbox('Check me out')
+#st.radio('Pick one:', ['nose','ear'])
+#st.selectbox('Select', [1,2,3])
+#st.multiselect('Multiselect', [1,2,3])
 
 
 
